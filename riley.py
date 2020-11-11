@@ -42,7 +42,12 @@ def wishMe():
         speak("good evening!")
 
     else:
-        speak("why are you awake?")
+        speak("you shouldn't be awake")
+        speak("would you like some help falling asleep?")
+        answer = takeCommand().lower()
+        if 'yes' in answer:
+            webbrowser.open("https://www.youtube.com/watch?v=FjHGZj2IjBk")
+            exit()
 
 
 def takeCommand():
@@ -190,13 +195,12 @@ def ss():
 
 
 if __name__ == "__main__":
+    # assistant name
+    assname = 'Riley'
+    speak(f"hello! i am {assname}")
 
     # greeting
     wishMe()
-
-    # setting assistant name
-    assname = 'Riley'
-    speak(f"i am {assname}")
 
     while True:
 
@@ -268,7 +272,7 @@ if __name__ == "__main__":
         elif 'date' in query:
             strDate = datetime.datetime.now().strftime("%d/%m/%Y")
             print(strDate)
-            speak(f"The date today is {strDate}")
+            speak(f"the date today is {strDate}")
 
         # tell the current time
         elif 'time' in query:
@@ -340,17 +344,17 @@ if __name__ == "__main__":
         elif 'meaning' in query:
             speak("can you please repeat the word")
             word = takeCommand()
-            speak(f"The meaning of {word} is {PyDictionary.meaning(word)}")
+            speak(f"the meaning of {word} is {PyDictionary.meaning(word)}")
 
         elif 'synonym' in query:
             speak("can you please repeat the word")
             word1 = takeCommand()
-            speak(f"The synonym of {word1} is {PyDictionary.synonym(word1)}")
+            speak(f"the synonym of {word1} is {PyDictionary.synonym(word1)}")
 
         elif 'antonym' in query:
             speak("can you please repeat the word")
             word2 = takeCommand()
-            speak(f"The antonym of {word2} is {PyDictionary.antonym(word2)}")
+            speak(f"the antonym of {word2} is {PyDictionary.antonym(word2)}")
 
         # calculator
         elif 'calculator' in query:
@@ -366,7 +370,7 @@ if __name__ == "__main__":
         elif 'toss' in query:
             heads_or_tails = ['heads', 'tails']
             toss = random.choice(heads_or_tails)
-            speak(f"It's {toss}")
+            speak(f"it's {toss}")
 
         # tell a joke
         elif 'joke' in query:
@@ -412,14 +416,12 @@ if __name__ == "__main__":
                 a = takeCommand()
 
             a = int(a)
-            speak(f"Going to sleep for {a} minutes")
+            speak(f"going to sleep for {a} minutes")
             time.sleep(a*60)
 
         # goodbye, exit
         elif 'bye' in query or 'exit' in query:
-            bb = ["Have a nice day, goodbye", "Goodbye! Rock your day!"]
-            ans = random.choice(bb)
-            speak(ans)
+            speak("have a nice day, goodbye")
             exit()
 
         # invalid query
