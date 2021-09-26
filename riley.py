@@ -19,14 +19,14 @@ from ctypes import cast, POINTER  # for volume settings
 from comtypes import CLSCTX_ALL  # for volume settings
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume  # for volume settings
 
-engine = pyttsx3.init('sapi5')
-voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id)
+ENGINE = pyttsx3.init('sapi5')
+VOICES = ENGINE.getProperty('voices')
+ENGINE.setProperty('voice', VOICES[1].id)
 
 
 def speak(audio):
-    engine.say(audio)
-    engine.runAndWait()
+    ENGINE.say(audio)
+    ENGINE.runAndWait()
 
 
 def wishMe():
@@ -56,8 +56,8 @@ def takeCommand():
     while True:
         with sr.Microphone() as source:
             print("\nListening...")
-            r.pause_threshold = 1
-            r.energy_threshold = 750
+            r.pause_threshold = 0.8
+            r.energy_threshold = 4000
             audio = r.listen(source)
 
         try:
@@ -203,7 +203,6 @@ if __name__ == "__main__":
     wishMe()
 
     while True:
-
         # take commands
         time.sleep(1)
         speak("what can I do for you today?")
@@ -211,32 +210,34 @@ if __name__ == "__main__":
 
         # list of all commands
         if 'help' in query:
-            commands = {'help': 'List all possible commands',
-                        'name': 'Change assistant name',
-                        'increase volume': 'Double the current volume',
-                        'decrease volume': 'Half the current volume',
-                        'date': 'Check the current date',
-                        'time': 'Check the current time',
-                        'reminder': 'Set a reminder',
-                        'wikipedia': 'Search Wikipedia',
-                        'where is...': 'Find a specific location',
-                        'open youtube': 'To open youtube',
-                        'open meet': 'To open google meet',
-                        'bored': 'Helps you with your boredom',
-                        'top rated movies': 'Shows top 5 rated movies from IMDb',
-                        'write a note': 'Takes a note of whatever you say',
-                        'show note': 'Shows notes you took that day',
-                        'meaning': 'Gives you the meaning of any word',
-                        'synonym': 'Gives you the synonym of any word',
-                        'antonym': 'Gives you the antonym of any word',
-                        'calculator': 'Perform basic calculator functions (+, -, *, /)',
-                        'screenshot': 'Take a screenshot of your screen',
-                        'toss': 'Performs a coin toss',
-                        'joke': 'Tells a joke',
-                        'guess': 'Starts number guessing game',
-                        'don\'t listen': 'Stops listening for the specified time',
-                        'bye or exit': 'Assistant closes',
-                        'go to sleep': 'Assistant goes to sleep'}
+            commands = {
+                'help': 'List all possible commands',
+                'name': 'Change assistant name',
+                'increase volume': 'Double the current volume',
+                'decrease volume': 'Half the current volume',
+                'date': 'Check the current date',
+                'time': 'Check the current time',
+                'reminder': 'Set a reminder',
+                'wikipedia': 'Search Wikipedia',
+                'where is...': 'Find a specific location',
+                'open youtube': 'To open youtube',
+                'open meet': 'To open google meet',
+                'bored': 'Helps you with your boredom',
+                'top rated movies': 'Shows top 5 rated movies from IMDb',
+                'write a note': 'Takes a note of whatever you say',
+                'show note': 'Shows notes you took that day',
+                'meaning': 'Gives you the meaning of any word',
+                'synonym': 'Gives you the synonym of any word',
+                'antonym': 'Gives you the antonym of any word',
+                'calculator': 'Perform basic calculator functions (+, -, *, /)',
+                'screenshot': 'Take a screenshot of your screen',
+                'toss': 'Performs a coin toss',
+                'joke': 'Tells a joke',
+                'guess': 'Starts number guessing game',
+                'don\'t listen': 'Stops listening for the specified time',
+                'bye or exit': 'Assistant closes',
+                'go to sleep': 'Assistant goes to sleep'
+            }
 
             speak("here is the list of commands")
             print(pd.DataFrame.from_dict(
@@ -254,7 +255,7 @@ if __name__ == "__main__":
                 vol("increase")
                 speak("would you like to increase the volume further?")
                 more = takeCommand().lower()
-                if more == 'no':
+                if more != 'yes':
                     speak("okay")
                     break
 
@@ -264,7 +265,7 @@ if __name__ == "__main__":
                 vol("decrease")
                 speak("would you like to decrease the volume further?")
                 more = takeCommand().lower()
-                if more == 'no':
+                if more != 'yes':
                     speak("okay")
                     break
 
